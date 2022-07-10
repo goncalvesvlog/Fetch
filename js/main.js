@@ -9,6 +9,10 @@ let total = 0;
 
 let stock = []
 
+function renderizarProductos(){
+
+    let tienda = document.getElementById('tienda');
+
 // Generar el DOM de las tarjetas
 fetch('./stock.json')
     .then((resp) => resp.json())
@@ -16,7 +20,7 @@ fetch('./stock.json')
         stock = data
             
         stock.forEach((e) => {
-            const tienda = document.createElement('tienda')
+            const div = document.createElement('div')
             div.classList.add('e')
         
             div.innerHTML = `
@@ -36,6 +40,8 @@ fetch('./stock.json')
             productosContainer.append(div)
         })
     })
+
+renderizarProductos();
 
 
 function agregarProductoAlCarrito(id){
