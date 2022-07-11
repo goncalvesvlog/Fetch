@@ -1,52 +1,115 @@
-// Selectores
+const BBDD = [
+    {
+        "id": 1,
+        "nombre": "Una noche en Venecia",
+        "descripcion" : "Un romance dificil de afrontar entre los canales de Venecia.",
+        "img": "./assets/img/book1.png",
+        "precio": 14,
+        "cantidad": 1
+    },
+    {
+        "id": 2,
+        "nombre": "Love in Paris", 
+        "descripcion" : "Paris es una ciudad cambiante, tan cambiante como el amor.",
+        "img": "./assets/img/book2.png",
+        "precio": 19,
+        "cantidad": 1
+    },
+    {
+        "id": 3,
+        "nombre": "Locura de Amor",
+        "descripcion" : "¿A qué le temes? La locura y el amor en un solo lugar.",
+        "img": "./assets/img/book3.png",
+        "precio": 8,
+        "cantidad": 1
+    },
+    {
+        "id": 4,
+        "nombre": "Frank", 
+        "descripcion" : "Las redes sociales son un peligro, y conocer a un extraño ¿Catfish?",
+        "img": "./assets/img/book4.png",
+        "precio": 18,
+        "cantidad": 1
+    },
+    {
+        "id": 5,
+        "nombre": "Crimenes y Poder", 
+        "descripcion" : "Religión, Judicial, Legislativo y Presidencial un poder criminal.",
+        "img": "./assets/img/book5.png",
+        "precio": 21,
+        "cantidad": 1
+    },
+    {
+        "id": 6,
+        "nombre": "Tragedia en el Nilo",
+        "descripcion" : "Narrativa de un romance en Medio Oriente, con toques Occidentales.", 
+        "img": "./assets/img/book6.png",
+        "precio": 14,
+        "cantidad": 1
+    },
+    {
+        "id": 7,
+        "nombre": "Caidas al vacio", 
+        "descripcion" : "¿Te sientes como si el final llega? Quizas estas cayendo al vacio sin darte cuenta.",
+        "img": "./assets/img/book7.png",
+        "precio": 18,
+        "cantidad": 1
+    },
+    {
+        "id": 8,
+        "nombre": "Reir, ¿Fallar? y Soñar",
+        "descripcion" : "Para tener una buena relación con uno mismo quizas necesites reir y llorar pero tambien ¿Fallar?", 
+        "img": "./assets/img/book8.png",
+        "precio": 9,
+        "cantidad": 1
+    },
+    {
+        "id": 9,
+        "nombre": "Anotomia de una Carcajada",
+        "descripcion" : "La narrativa de un inspirado y novato comediante en las calles de New York.", 
+        "img": "./assets/img/book9.png",
+        "precio": 12,
+        "cantidad": 1
+    }
+]
 
 const precioTotal = document.querySelector('#precioTotal')
 
 let carrito
-const carritoEnLS = JSON.parse(localStorage.getItem('carrito')) || []
+const carritoEnLS = JSON.parse(localStorage.getItem('carrito'))
 
 let total = 0;
-
-let stock = []
 
 function renderizarProductos(){
 
     let tienda = document.getElementById('tienda');
 
 // Generar el DOM de las tarjetas
-fetch('./stock.json')
-    .then((resp) => resp.json())
-    .then((data) => {
-        stock = data
-            
-        stock.forEach((e) => {
-            const div = document.createElement('div')
-            div.classList.add('e')
+    BBDD.forEach((e)=>{
+
+        let productoHTML = `
         
-            div.innerHTML = `
-            <div class="col-12 col-md-4 mb-5 d-flex justify-content-center">
-                <div class="card text-dark" style="width: 18rem;">
-                <img class="card-img-top" src="${e.img}" alt="Card 1" />
-                    <div class="card-body">
-                    <h5 class="card-title">${e.nombre}</h5>
-                    <p class="card-text">${e.descripcion}</p>
-                    <p>${e.precio} €</p>
-                    <button class="btn btn-primary" onClick="agregarProductoAlCarrito(${e.id})">Añadir al carrito</button>
-                    </div>
-                </div>
+        <div class="col-12 col-md-4 mb-5 d-flex justify-content-center">
+        <div class="card text-dark" style="width: 18rem;">
+            <img class="card-img-top" src="${e.img}" alt="Card 1" />
+            <div class="card-body">
+                <h5 class="card-title">${e.nombre}</h5>
+                <p class="card-text">${e.descripcion}</p>
+                <p>${e.precio} €</p>
+                <button class="btn btn-primary" onClick="agregarProductoAlCarrito(${e.id})">Añadir al carrito</button>
             </div>
-             `
-        
-            productosContainer.append(div)
-        })
-    })
+        </div>
+        </div>
+        `
+        tienda.innerHTML += productoHTML
+    });
+}
 
 renderizarProductos();
 
-
 function agregarProductoAlCarrito(id){
 
-    //let producto = BBDD.find(producto => producto.id == id);
+    let producto = BBDD.find(producto => producto.id == id);
 
     let productoEnCarrito = carrito.find(producto => producto.id == id);
     
@@ -180,3 +243,24 @@ btnToast.addEventListener('click', () => {
           }
     }).showToast()
 })
+
+//FETCH
+const listUsers = async () => {
+    const response = await fetch("https://jsonplaceholder.typicode.com/users");
+    const users= await response.json();
+    
+    let tableBody= ``;
+    users.forEach((user, index) => {
+        tableBody += `<tr>
+        <td class="centered table-ligh">${user.id}</td>
+        <td class="centered table-ligh">${user.name}</td>
+        <td class="centered table-ligh">${user.username}</td>
+        </tr>`
+    });
+    //document.getElementById("tableBody_Users").innerHTML = tableBody;
+    tableBody_Users.innerHTML = tableBody;
+};
+
+window.addEventListener("load",function(){
+    listUsers();
+});

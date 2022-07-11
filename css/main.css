@@ -374,3 +374,9 @@ footer {
     max-height: 5%;
     padding: 6px 6px;
 }
+
+/*TOPS Clientes*/
+.centered{
+    text-align: center;
+    vertical-align: middle;
+}
